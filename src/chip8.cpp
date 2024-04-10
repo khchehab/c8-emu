@@ -84,10 +84,13 @@ void Chip8::execute() {
                 V[x] = V[y];
             } else if (n == 0x1) { // OR Vx, Vy
                 V[x] |= V[y];
+                V[0xf] = 0x0;
             } else if (n == 0x2) { // AND Vx, Vy
                 V[x] &= V[y];
+                V[0xf] = 0x0;
             } else if (n == 0x3) { // XOR Vx, Vy
                 V[x] ^= V[y];
+                V[0xf] = 0x0;
             } else if (n == 0x4) { // ADD Vx, Vy
                 uint16_t res = V[x] + V[y];
                 V[x] = res & 0xff;
@@ -96,12 +99,14 @@ void Chip8::execute() {
                 V[0xf] = V[x] > V[y] ? 0x1 : 0x0;
                 V[x] = (V[x] - V[y]) & 0xff;
             } else if (n == 0x6) { // SHR Vx {, Vy}
+                V[x] = V[y];
                 V[0xf] = (V[x] & 0x01) == 0x01 ? 0x1 : 0x0;
                 V[x] >>= 1;
             } else if (n == 0x7) { // SUBN Vx, Vy
                 V[0xf] = V[y] > V[x] ? 0x1 : 0x0;
                 V[x] = (V[y] - V[x]) & 0xff;
             } else if (n == 0xe) { // SHL Vx {, Vy}
+                V[x] = V[y];
                 V[0xf] = (V[x] & 0x10) == 0x10 ? 0x1 : 0x0;
                 V[x] <<= 1;
             }
@@ -131,8 +136,8 @@ void Chip8::execute() {
                 sprite = memory[I + i];
 
                 for (j = 0; j < 8; ++j) {
-                    xPos = V[x] + j;
-                    yPos = V[y] + i;
+                    xPos = (V[x] + j) % GRAPHICS_WIDTH;
+                    yPos = (V[y] + i) % GRAPHICS_HEIGHT;
 
                     spritePixel = (sprite & (0x80 >> j)) >> (8 - j - 1);
                     screenPixel = graphics[(yPos * GRAPHICS_WIDTH) + xPos];
@@ -182,14 +187,12 @@ void Chip8::execute() {
                 memory[I + 1] = tens;
                 memory[I + 2] = ones;
             } else if (nn == 0x55) { // LD [I], Vx
-                uint8_t i;
-                for (i = 0; i <= x; i++) {
-                    memory[I + i] = V[i];
+                for (uint8_t i = 0; i <= x; i++) {
+                    memory[I++] = V[i];
                 }
             } else if (nn == 0x65) { // LD Vx, [I]
-                uint8_t i;
-                for (i = 0; i <= x; i++) {
-                    V[i] = memory[I + i];
+                for (uint8_t i = 0; i <= x; i++) {
+                    V[i] = memory[I++];
                 }
             }
             break;
