@@ -1,7 +1,3 @@
-//
-// Created by Khaled Chehab on 08/04/2024.
-//
-
 #include "platform.h"
 #include <stdexcept>
 

@@ -1,7 +1,3 @@
-//
-// Created by Khaled Chehab on 07/04/2024.
-//
-
 #include "chip8.h"
 #include <fstream>
 #include <stdexcept>

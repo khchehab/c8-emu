@@ -1,7 +1,3 @@
-//
-// Created by Khaled Chehab on 07/04/2024.
-//
-
 #ifndef C8_EMU_CHIP8_H
 #define C8_EMU_CHIP8_H
 

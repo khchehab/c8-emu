@@ -1,7 +1,3 @@
-//
-// Created by Khaled Chehab on 08/04/2024.
-//
-
 #ifndef C8_EMU_PLATFORM_H
 #define C8_EMU_PLATFORM_H
 
