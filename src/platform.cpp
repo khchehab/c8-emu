@@ -2,7 +2,7 @@
 #include <stdexcept>
 
 Platform::Platform(const std::string &title, int scale) : mScale(scale) {
-    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0) {
         throw std::runtime_error(std::string("Could not initialize SDL! SDL Error: ") + SDL_GetError());
     }
 
@@ -30,7 +30,7 @@ Platform::~Platform() {
 
 bool Platform::processInput(uint8_t *keys) {
     SDL_Event e;
-    if (SDL_PollEvent(&e)) {
+    while (SDL_PollEvent(&e)) {
         if (e.type == SDL_QUIT) {
             return false;
         }

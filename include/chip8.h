@@ -3,10 +3,11 @@
 
 #include <string>
 #include "constants.h"
+#include "beeper.h"
 
 class Chip8 {
 public:
-    Chip8();
+    explicit Chip8(const Beeper& beeper);
 
     void loadRom(const std::string &path);
 
@@ -17,6 +18,8 @@ public:
     uint8_t *getKeys();
 
 private:
+    Beeper mBeeper;
+
     uint8_t V[REGISTER_SIZE]{};
     uint8_t memory[MEMORY_SIZE]{};
     uint8_t graphics[GRAPHICS_WIDTH * GRAPHICS_HEIGHT]{};

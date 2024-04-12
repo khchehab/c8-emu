@@ -3,7 +3,7 @@
 #include <stdexcept>
 #include <random>
 
-Chip8::Chip8() : I(0x0000), PC(0x0200), SP(0x00), DT(0x00), ST(0x00) {
+Chip8::Chip8(const Beeper& beeper) : mBeeper(beeper), I(0x0000), PC(0x0200), SP(0x00), DT(0x00), ST(0x00) {
     for (int i = 0; i < FONT_SET_SIZE; i++) {
         memory[i] = FONT_SET[i];
     }
@@ -256,7 +256,7 @@ void Chip8::decrementTimers() {
 
     if (ST > 0) {
         --ST;
-        // should beep
+        mBeeper.play();
     }
 }
 

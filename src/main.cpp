@@ -2,13 +2,16 @@
 #include <stdexcept>
 #include "chip8.h"
 #include "platform.h"
+#include "beeper.h"
 
 int main() {
     try {
-        Chip8 c8;
-        c8.loadRom("roms/chip8-test-rom/test_opcode.ch8");
-
         Platform platform("Chip8 Emulator", 10);
+
+        Beeper beeper(440, 100);
+
+        Chip8 c8(beeper);
+        c8.loadRom("roms/chip8-test-suite/7-beep.ch8");
 
         while (true) {
             if (!platform.processInput(c8.getKeys())) {
@@ -24,7 +27,7 @@ int main() {
         }
 
         return 0;
-    } catch (std::runtime_error &e) {
+    } catch (std::exception &e) {
         std::cerr << e.what() << std::endl;
         return 1;
     }
