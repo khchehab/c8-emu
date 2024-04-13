@@ -224,38 +224,11 @@ void Chip8::setWaitedKeyPress() {
     uint16_t previousOpcode = (memory[PC - 2] << 8) | memory[PC - 1];
     uint8_t x = (previousOpcode & 0x0f00) >> 8;
 
-    if (keypad[0x0]) {
-        V[x] = 0x0;
-    } else if (keypad[0x1]) {
-        V[x] = 0x1;
-    } else if (keypad[0x2]) {
-        V[x] = 0x2;
-    } else if (keypad[0x3]) {
-        V[x] = 0x3;
-    } else if (keypad[0x4]) {
-        V[x] = 0x4;
-    } else if (keypad[0x5]) {
-        V[x] = 0x5;
-    } else if (keypad[0x6]) {
-        V[x] = 0x6;
-    } else if (keypad[0x7]) {
-        V[x] = 0x7;
-    } else if (keypad[0x8]) {
-        V[x] = 0x8;
-    } else if (keypad[0x9]) {
-        V[x] = 0x9;
-    } else if (keypad[0xa]) {
-        V[x] = 0xa;
-    } else if (keypad[0xb]) {
-        V[x] = 0xb;
-    } else if (keypad[0xc]) {
-        V[x] = 0xc;
-    } else if (keypad[0xd]) {
-        V[x] = 0xd;
-    } else if (keypad[0xe]) {
-        V[x] = 0xe;
-    } else if (keypad[0xf]) {
-        V[x] = 0xf;
+    for (uint8_t i = 0; i < KEY_SIZE; ++i) {
+        if (keypad[i]) {
+            V[x] = i;
+            break;
+        }
     }
 }
 
