@@ -189,16 +189,16 @@ void Chip8::execute() {
                 uint8_t tens = (V[x] / 10) % 10;
                 uint8_t ones = V[x] % 10;
 
-                memory[I] = hundreds;
-                memory[I + 1] = tens;
-                memory[I + 2] = ones;
+                memory[I & 0xffff] = hundreds;
+                memory[(I + 1) & 0xffff] = tens;
+                memory[(I + 2) & 0xffff] = ones;
             } else if (nn == 0x55) { // LD [I], Vx
                 for (uint8_t i = 0; i <= x; i++) {
-                    memory[I++] = V[i];
+                    memory[(I++) & 0xffff] = V[i];
                 }
             } else if (nn == 0x65) { // LD Vx, [I]
                 for (uint8_t i = 0; i <= x; i++) {
-                    V[i] = memory[I++];
+                    V[i] = memory[(I++) & 0xffff];
                 }
             }
             break;
