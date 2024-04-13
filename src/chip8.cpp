@@ -99,7 +99,7 @@ void Chip8::execute() {
                 V[0xf] = res > 255 ? 0x1 : 0x0;
             } else if (n == 0x5) { // SUB Vx, Vy
                 uint8_t carry = V[x] >= V[y] ? 0x1 : 0x0;
-                V[x] = (V[x] - V[y]) & 0xff;
+                V[x] = V[x] - V[y];
                 V[0xf] = carry;
             } else if (n == 0x6) { // SHR Vx {, Vy}
                 V[x] = V[y];
@@ -108,7 +108,7 @@ void Chip8::execute() {
                 V[0xf] = carry;
             } else if (n == 0x7) { // SUBN Vx, Vy
                 uint8_t carry = V[y] >= V[x] ? 0x1 : 0x0;
-                V[x] = (V[y] - V[x]) & 0xff;
+                V[x] = V[y] - V[x];
                 V[0xf] = carry;
             } else if (n == 0xe) { // SHL Vx {, Vy}
                 V[x] = V[y];
