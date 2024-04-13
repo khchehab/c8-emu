@@ -3,18 +3,18 @@
 
 Platform::Platform(const std::string &title, int scale) : mScale(scale) {
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0) {
-        throw std::runtime_error(std::string("Could not initialize SDL! SDL Error: ") + SDL_GetError());
+        throw std::runtime_error(std::string("could not initialize SDL! SDL Error: ") + SDL_GetError());
     }
 
     mWindow = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
                                GRAPHICS_WIDTH * mScale, GRAPHICS_HEIGHT * mScale, SDL_WINDOW_SHOWN);
     if (mWindow == nullptr) {
-        throw std::runtime_error(std::string("Could not create window! SDL Error: ") + SDL_GetError());
+        throw std::runtime_error(std::string("could not create window! SDL Error: ") + SDL_GetError());
     }
 
     mRenderer = SDL_CreateRenderer(mWindow, -1, SDL_RENDERER_ACCELERATED);
     if (mRenderer == nullptr) {
-        throw std::runtime_error(std::string("Could not create renderer! SDL Error: ") + SDL_GetError());
+        throw std::runtime_error(std::string("could not create renderer! SDL Error: ") + SDL_GetError());
     }
 
     mSetColor = {0x00, 0x00, 0x00};

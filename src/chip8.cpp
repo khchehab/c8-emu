@@ -22,11 +22,12 @@ void Chip8::loadRom(const std::string &path) {
     }
 
     std::streampos size = stream.tellg();
-    if (size <= sizeof(memory) - 0x200) {
-        stream.seekg(std::ios_base::beg);
-        stream.read(reinterpret_cast<char *>(&memory[0x200]), size);
+    if (size > MEMORY_SIZE - 0x200) {
+        throw std::runtime_error("the rom will not fit in memory");
     }
 
+    stream.seekg(std::ios_base::beg);
+    stream.read(reinterpret_cast<char *>(&memory[0x200]), size);
     stream.close();
 }
 

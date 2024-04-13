@@ -16,7 +16,7 @@ Beeper::Beeper(int frequency, int duration) : mFrequency(frequency), mDuration(d
 
     mAudioDeviceId = SDL_OpenAudioDevice(nullptr, 0, &desired, &mObtained, 0);
     if (mAudioDeviceId == 0) {
-        throw std::runtime_error(std::string("Could not open audio device! SDL Error: ") + SDL_GetError());
+        throw std::runtime_error(std::string("could not open audio device! SDL Error: ") + SDL_GetError());
     }
 }
 
