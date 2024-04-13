@@ -102,16 +102,18 @@ void Chip8::execute() {
                 V[0xf] = carry;
             } else if (n == 0x6) { // SHR Vx {, Vy}
                 V[x] = V[y];
-                V[0xf] = (V[x] & 0x01) == 0x01 ? 0x1 : 0x0;
+                uint8_t carry = (V[x] & 0x01) == 0x01 ? 0x1 : 0x0;
                 V[x] >>= 1;
+                V[0xf] = carry;
             } else if (n == 0x7) { // SUBN Vx, Vy
                 uint8_t carry = V[y] >= V[x] ? 0x1 : 0x0;
                 V[x] = (V[y] - V[x]) & 0xff;
                 V[0xf] = carry;
             } else if (n == 0xe) { // SHL Vx {, Vy}
                 V[x] = V[y];
-                V[0xf] = (V[x] & 0x10) == 0x10 ? 0x1 : 0x0;
+                uint8_t carry = (V[x] & 0x80) == 0x80 ? 0x1 : 0x0;
                 V[x] <<= 1;
+                V[0xf] = carry;
             }
             break;
         case 0x9: // SNE Vx, Vy
