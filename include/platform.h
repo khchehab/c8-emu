@@ -11,7 +11,7 @@ public:
 
     ~Platform();
 
-    bool processInput(uint8_t *keys);
+    bool processInput(uint8_t *keys, bool shouldWaitForKeyPress);
 
     void clearScreen();
 

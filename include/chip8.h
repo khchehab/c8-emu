@@ -17,6 +17,12 @@ public:
 
     uint8_t *getKeys();
 
+    void setWaitedKeyPress();
+
+    bool shouldWaitForKeyPress() const { return mShouldWaitForKeyPress; }
+
+    void setShouldWaitForKeyPress(bool shouldWaitForKeyPress) { mShouldWaitForKeyPress = shouldWaitForKeyPress; }
+
 private:
     Beeper mBeeper;
 
@@ -32,9 +38,9 @@ private:
     uint8_t DT;
     uint8_t ST;
 
-    uint16_t getCurrentOpcode();
+    bool mShouldWaitForKeyPress;
 
-    void waitForKeyPress(uint8_t x);
+    uint16_t getCurrentOpcode();
 
     void decrementTimers();
 

@@ -7,7 +7,8 @@
 
 const int RATE_OF_DECREMENT = 1000 / 60;
 
-Chip8::Chip8(const Beeper& beeper) : mBeeper(beeper), I(0x0000), PC(0x0200), SP(0x00), DT(0x00), ST(0x00) {
+Chip8::Chip8(const Beeper &beeper) : mBeeper(beeper), I(0x0000), PC(0x0200), SP(0x00), DT(0x00), ST(0x00),
+                                     mShouldWaitForKeyPress(false) {
     for (int i = 0; i < FONT_SET_SIZE; i++) {
         memory[i] = FONT_SET[i];
     }
@@ -175,7 +176,7 @@ void Chip8::execute() {
             if (nn == 0x07) { // LD Vx, DT
                 V[x] = DT;
             } else if (nn == 0x0a) { // LD Vx, K
-                waitForKeyPress(x);
+                mShouldWaitForKeyPress = true;
             } else if (nn == 0x15) { // LD DT, Vx
                 DT = V[x];
             } else if (nn == 0x18) { // LD ST, Vx
@@ -217,7 +218,12 @@ uint16_t Chip8::getCurrentOpcode() {
     return (memory[PC] << 8) | memory[PC + 1];
 }
 
-void Chip8::waitForKeyPress(uint8_t x) {
+void Chip8::setWaitedKeyPress() {
+    // when doing wait key press, PC has already been incremented
+    // should get the opcode of the previous execute
+    uint16_t previousOpcode = (memory[PC - 2] << 8) | memory[PC - 1];
+    uint8_t x = (previousOpcode & 0x0f00) >> 8;
+
     if (keypad[0x0]) {
         V[x] = 0x0;
     } else if (keypad[0x1]) {
@@ -250,8 +256,6 @@ void Chip8::waitForKeyPress(uint8_t x) {
         V[x] = 0xe;
     } else if (keypad[0xf]) {
         V[x] = 0xf;
-    } else {
-        PC -= 2;
     }
 }
 

@@ -11,11 +11,16 @@ int main() {
         Beeper beeper(440, 100);
 
         Chip8 c8(beeper);
-        c8.loadRom("roms/chip8-test-suite/4-flags.ch8");
+        c8.loadRom("roms/chip8-test-suite/6-keypad.ch8");
 
         while (true) {
-            if (!platform.processInput(c8.getKeys())) {
+            if (!platform.processInput(c8.getKeys(), c8.shouldWaitForKeyPress())) {
                 break;
+            }
+
+            if (c8.shouldWaitForKeyPress()) {
+                c8.setShouldWaitForKeyPress(false);
+                c8.setWaitedKeyPress();
             }
 
             platform.clearScreen();
