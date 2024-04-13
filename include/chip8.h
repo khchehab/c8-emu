@@ -18,6 +18,8 @@ public:
     uint8_t *getKeys();
 
 private:
+    static const int RATE_OF_DECREMENT = 1000 / 60;
+
     Beeper mBeeper;
 
     uint8_t V[REGISTER_SIZE]{};

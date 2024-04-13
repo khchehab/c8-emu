@@ -2,6 +2,8 @@
 #include <fstream>
 #include <stdexcept>
 #include <random>
+#include <thread>
+#include <chrono>
 
 Chip8::Chip8(const Beeper& beeper) : mBeeper(beeper), I(0x0000), PC(0x0200), SP(0x00), DT(0x00), ST(0x00) {
     for (int i = 0; i < FONT_SET_SIZE; i++) {
@@ -18,15 +20,12 @@ void Chip8::loadRom(const std::string &path) {
     }
 
     std::streampos size = stream.tellg();
-    std::unique_ptr<char[]> buffer(new char[size]);
-
-    stream.seekg(std::ios_base::beg);
-    stream.read(buffer.get(), size);
-    stream.close();
-
-    for (int i = 0; i < size; ++i) {
-        memory[PC + i] = buffer[i];
+    if (size <= sizeof(memory) - 0x200) {
+        stream.seekg(std::ios_base::beg);
+        stream.read(reinterpret_cast<char *>(&memory[0x200]), size);
     }
+
+    stream.close();
 }
 
 void Chip8::execute() {
@@ -250,14 +249,25 @@ void Chip8::waitForKeyPress(uint8_t x) {
 }
 
 void Chip8::decrementTimers() {
-    if (DT > 0) {
-        --DT;
-    }
+    std::thread t([&]() {
+        while (true) {
+            if (DT > 0) {
+                --DT;
+            }
 
-    if (ST > 0) {
-        --ST;
-        mBeeper.play();
-    }
+            if (ST > 0) {
+                --ST;
+                mBeeper.play();
+            }
+
+            std::this_thread::sleep_for(std::chrono::milliseconds(RATE_OF_DECREMENT));
+
+            if (DT == 0 && ST == 0) {
+                break;
+            }
+        }
+    });
+    t.join();
 }
 
 uint8_t Chip8::randomByte() {

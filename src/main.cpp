@@ -11,7 +11,7 @@ int main() {
         Beeper beeper(440, 100);
 
         Chip8 c8(beeper);
-        c8.loadRom("roms/chip8-test-suite/7-beep.ch8");
+        c8.loadRom("roms/chip8-test-suite/4-flags.ch8");
 
         while (true) {
             if (!platform.processInput(c8.getKeys())) {

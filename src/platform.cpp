@@ -12,7 +12,7 @@ Platform::Platform(const std::string &title, int scale) : mScale(scale) {
         throw std::runtime_error(std::string("Could not create window! SDL Error: ") + SDL_GetError());
     }
 
-    mRenderer = SDL_CreateRenderer(mWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    mRenderer = SDL_CreateRenderer(mWindow, -1, SDL_RENDERER_ACCELERATED);
     if (mRenderer == nullptr) {
         throw std::runtime_error(std::string("Could not create renderer! SDL Error: ") + SDL_GetError());
     }
@@ -45,113 +45,45 @@ bool Platform::processInput(uint8_t *keys) {
          */
         if (e.type == SDL_KEYDOWN) {
             switch (e.key.keysym.sym) {
-                case SDLK_ESCAPE:
-                    return false;
-                case SDLK_x:
-                    keys[0x0] = true;
-                    break;
-                case SDLK_1:
-                    keys[0x1] = true;
-                    break;
-                case SDLK_2:
-                    keys[0x2] = true;
-                    break;
-                case SDLK_3:
-                    keys[0x3] = true;
-                    break;
-                case SDLK_q:
-                    keys[0x4] = true;
-                    break;
-                case SDLK_w:
-                    keys[0x5] = true;
-                    break;
-                case SDLK_e:
-                    keys[0x6] = true;
-                    break;
-                case SDLK_a:
-                    keys[0x7] = true;
-                    break;
-                case SDLK_s:
-                    keys[0x8] = true;
-                    break;
-                case SDLK_d:
-                    keys[0x9] = true;
-                    break;
-                case SDLK_z:
-                    keys[0xa] = true;
-                    break;
-                case SDLK_c:
-                    keys[0xb] = true;
-                    break;
-                case SDLK_4:
-                    keys[0xc] = true;
-                    break;
-                case SDLK_r:
-                    keys[0xd] = true;
-                    break;
-                case SDLK_f:
-                    keys[0xe] = true;
-                    break;
-                case SDLK_v:
-                    keys[0xf] = true;
-                    break;
-                default:
-                    break;
+                case SDLK_ESCAPE: return false;
+                case SDLK_x: keys[0x0] = true; break;
+                case SDLK_1: keys[0x1] = true; break;
+                case SDLK_2: keys[0x2] = true; break;
+                case SDLK_3: keys[0x3] = true; break;
+                case SDLK_q: keys[0x4] = true; break;
+                case SDLK_w: keys[0x5] = true; break;
+                case SDLK_e: keys[0x6] = true; break;
+                case SDLK_a: keys[0x7] = true; break;
+                case SDLK_s: keys[0x8] = true; break;
+                case SDLK_d: keys[0x9] = true; break;
+                case SDLK_z: keys[0xa] = true; break;
+                case SDLK_c: keys[0xb] = true; break;
+                case SDLK_4: keys[0xc] = true; break;
+                case SDLK_r: keys[0xd] = true; break;
+                case SDLK_f: keys[0xe] = true; break;
+                case SDLK_v: keys[0xf] = true; break;
+                default: break;
             }
         } else if (e.type == SDL_KEYUP) {
             switch (e.key.keysym.sym) {
-                case SDLK_ESCAPE:
-                    return false;
-                case SDLK_x:
-                    keys[0x0] = false;
-                    break;
-                case SDLK_1:
-                    keys[0x1] = false;
-                    break;
-                case SDLK_2:
-                    keys[0x2] = false;
-                    break;
-                case SDLK_3:
-                    keys[0x3] = false;
-                    break;
-                case SDLK_q:
-                    keys[0x4] = false;
-                    break;
-                case SDLK_w:
-                    keys[0x5] = false;
-                    break;
-                case SDLK_e:
-                    keys[0x6] = false;
-                    break;
-                case SDLK_a:
-                    keys[0x7] = false;
-                    break;
-                case SDLK_s:
-                    keys[0x8] = false;
-                    break;
-                case SDLK_d:
-                    keys[0x9] = false;
-                    break;
-                case SDLK_z:
-                    keys[0xa] = false;
-                    break;
-                case SDLK_c:
-                    keys[0xb] = false;
-                    break;
-                case SDLK_4:
-                    keys[0xc] = false;
-                    break;
-                case SDLK_r:
-                    keys[0xd] = false;
-                    break;
-                case SDLK_f:
-                    keys[0xe] = false;
-                    break;
-                case SDLK_v:
-                    keys[0xf] = false;
-                    break;
-                default:
-                    break;
+                case SDLK_ESCAPE: return false;
+                case SDLK_x: keys[0x0] = false; break;
+                case SDLK_1: keys[0x1] = false; break;
+                case SDLK_2: keys[0x2] = false; break;
+                case SDLK_3: keys[0x3] = false; break;
+                case SDLK_q: keys[0x4] = false; break;
+                case SDLK_w: keys[0x5] = false; break;
+                case SDLK_e: keys[0x6] = false; break;
+                case SDLK_a: keys[0x7] = false; break;
+                case SDLK_s: keys[0x8] = false; break;
+                case SDLK_d: keys[0x9] = false; break;
+                case SDLK_z: keys[0xa] = false; break;
+                case SDLK_c: keys[0xb] = false; break;
+                case SDLK_4: keys[0xc] = false; break;
+                case SDLK_r: keys[0xd] = false; break;
+                case SDLK_f: keys[0xe] = false; break;
+                case SDLK_v: keys[0xf] = false; break;
+                default: break;
             }
         }
     }
