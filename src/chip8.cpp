@@ -5,6 +5,8 @@
 #include <thread>
 #include <chrono>
 
+const int RATE_OF_DECREMENT = 1000 / 60;
+
 Chip8::Chip8(const Beeper& beeper) : mBeeper(beeper), I(0x0000), PC(0x0200), SP(0x00), DT(0x00), ST(0x00) {
     for (int i = 0; i < FONT_SET_SIZE; i++) {
         memory[i] = FONT_SET[i];
