@@ -27,6 +27,8 @@ private:
     SDL_Color mUnsetColor{};
 
     int mScale;
+
+    static int consumeEvent(SDL_Event *e, bool shouldWaitForKeyPress);
 };
 
 #endif //C8_EMU_PLATFORM_H
