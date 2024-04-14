@@ -45,6 +45,8 @@ private:
     uint16_t getCurrentOpcode();
 
     static uint8_t randomByte();
+
+    void drawSprite(uint8_t x, uint8_t y, uint8_t n);
 };
 
 #endif //C8_EMU_CHIP8_H
