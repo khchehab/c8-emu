@@ -79,7 +79,9 @@ bool Platform::processInput(uint8_t *keys, bool shouldWaitForKeyPress) {
         bool keyState = true;
         if (e.type == SDL_KEYUP) {
             keyState = false;
-            keyPressed = true;
+            if (shouldWaitForKeyPress) {
+                keyPressed = true;
+            }
         }
 
         switch (e.key.keysym.sym) {
@@ -100,8 +102,7 @@ bool Platform::processInput(uint8_t *keys, bool shouldWaitForKeyPress) {
             case SDLK_r: keys[0xd] = keyState; break;
             case SDLK_f: keys[0xe] = keyState; break;
             case SDLK_v: keys[0xf] = keyState; break;
-            // set key pressed to false, so that it re-waits for key in case should wait
-            default: keyPressed = false; break;
+            default: break;
         }
 
         if (keyPressed) {
