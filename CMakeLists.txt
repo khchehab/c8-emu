@@ -15,6 +15,8 @@ endif ()
 
 include_directories(include)
 
+add_compile_options(-O3)
+
 file(GLOB SOURCES src/*.cpp)
 add_executable(c8-emu ${SOURCES})
 
