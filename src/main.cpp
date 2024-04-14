@@ -26,6 +26,8 @@ int main() {
             platform.clearScreen();
 
             c8.execute();
+            c8.decrementTimers();
+
             platform.drawGraphics(c8.getGraphics());
 
             platform.presentDisplay();

@@ -213,8 +213,6 @@ void Chip8::execute() {
     if (incrementPC) {
         PC += 2;
     }
-
-    decrementTimers();
 }
 
 uint16_t Chip8::getCurrentOpcode() {

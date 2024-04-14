@@ -13,6 +13,8 @@ public:
 
     void execute();
 
+    void decrementTimers();
+
     const bool *getGraphics() const;
 
     uint8_t *getKeys();
@@ -41,8 +43,6 @@ private:
     bool mShouldWaitForKeyPress;
 
     uint16_t getCurrentOpcode();
-
-    void decrementTimers();
 
     static uint8_t randomByte();
 };
