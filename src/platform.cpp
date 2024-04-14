@@ -122,7 +122,7 @@ void Platform::presentDisplay() {
     SDL_RenderPresent(mRenderer);
 }
 
-void Platform::drawGraphics(const uint8_t *graphics) {
+void Platform::drawGraphics(const bool *graphics) {
     int i, j;
     SDL_Rect fillRect;
     for (i = 0; i < GRAPHICS_WIDTH; ++i) {

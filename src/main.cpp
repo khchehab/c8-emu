@@ -11,7 +11,7 @@ int main() {
         Beeper beeper(440, 100);
 
         Chip8 c8(beeper);
-        c8.loadRom("roms/chip8-test-suite/6-keypad.ch8");
+        c8.loadRom("roms/chip8-test-suite/5-quirks.ch8");
 
         while (true) {
             if (!platform.processInput(c8.getKeys(), c8.shouldWaitForKeyPress())) {

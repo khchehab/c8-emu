@@ -47,7 +47,7 @@ void Chip8::execute() {
     switch (opcodeFamily) {
         case 0x0:
             if (nnn == 0x0e0) { // CLS
-                memset(graphics, 0, sizeof(graphics));
+                memset(graphics, false, sizeof(graphics));
             } else if (nnn == 0x0ee) { // RET
                 PC = stack[--SP];
             }
@@ -138,7 +138,8 @@ void Chip8::execute() {
 
             uint8_t i, j, sprite;
             uint8_t xPos, yPos;
-            uint8_t spritePixel, screenPixel;
+            uint8_t spritePixel;
+            bool screenPixel;
             for (i = 0; i < n; ++i) {
                 sprite = memory[I + i];
 
@@ -150,7 +151,7 @@ void Chip8::execute() {
                     screenPixel = graphics[(yPos * GRAPHICS_WIDTH) + xPos];
 
                     if (spritePixel == 0x1) {
-                        if (screenPixel == 0x1) {
+                        if (screenPixel) {
                             V[0xf] = 0x1;
                         }
 
@@ -260,7 +261,7 @@ uint8_t Chip8::randomByte() {
     return distribution(rng);
 }
 
-const uint8_t *Chip8::getGraphics() const {
+const bool *Chip8::getGraphics() const {
     return graphics;
 }
 

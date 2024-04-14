@@ -17,7 +17,7 @@ public:
 
     void presentDisplay();
 
-    void drawGraphics(const uint8_t *graphics);
+    void drawGraphics(const bool *graphics);
 
 private:
     SDL_Window *mWindow;

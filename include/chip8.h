@@ -7,13 +7,13 @@
 
 class Chip8 {
 public:
-    explicit Chip8(const Beeper& beeper);
+    explicit Chip8(const Beeper &beeper);
 
     void loadRom(const std::string &path);
 
     void execute();
 
-    const uint8_t *getGraphics() const;
+    const bool *getGraphics() const;
 
     uint8_t *getKeys();
 
@@ -28,7 +28,7 @@ private:
 
     uint8_t V[REGISTER_SIZE]{};
     uint8_t memory[MEMORY_SIZE]{};
-    uint8_t graphics[GRAPHICS_WIDTH * GRAPHICS_HEIGHT]{};
+    bool graphics[GRAPHICS_WIDTH * GRAPHICS_HEIGHT]{};
     uint16_t stack[STACK_SIZE]{};
     uint8_t keypad[KEY_SIZE]{}; // 0 if not pressed, non-0 if pressed
 
