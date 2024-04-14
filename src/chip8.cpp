@@ -139,6 +139,7 @@ void Chip8::execute() {
             uint8_t i, j, sprite;
             uint8_t xPos, yPos;
             uint8_t spritePixel;
+            uint16_t index;
             bool screenPixel;
             for (i = 0; i < n; ++i) {
                 sprite = memory[I + i];
@@ -146,16 +147,17 @@ void Chip8::execute() {
                 for (j = 0; j < 8; ++j) {
                     xPos = (V[x] + j) % GRAPHICS_WIDTH;
                     yPos = (V[y] + i) % GRAPHICS_HEIGHT;
+                    index = (yPos * GRAPHICS_WIDTH) + xPos;
 
                     spritePixel = (sprite & (0x80 >> j)) >> (8 - j - 1);
-                    screenPixel = graphics[(yPos * GRAPHICS_WIDTH) + xPos];
+                    screenPixel = graphics[index];
 
                     if (spritePixel == 0x1) {
                         if (screenPixel) {
                             V[0xf] = 0x1;
                         }
 
-                        graphics[(yPos * GRAPHICS_WIDTH) + xPos] = screenPixel ^ spritePixel;
+                        graphics[index] = screenPixel ^ spritePixel;
                     }
                 }
             }
