@@ -214,21 +214,20 @@ void Chip8::decrementTimers() {
         return;
     }
 
-    mTimerCurr = std::chrono::steady_clock::now();
-    mTimerDelta = std::chrono::duration_cast<std::chrono::milliseconds>(mTimerCurr - mTimerPrev).count();
+    auto timerCurr = std::chrono::steady_clock::now();
+    auto timerElapsed = std::chrono::duration_cast<std::chrono::milliseconds>(timerCurr - mTimerPrev).count();
 
-    if (mTimerDelta < TIMERS_TIME_PER_CYCLE) {
-        return;
-    }
-    
-    if (DT > 0) {
-        mTimerPrev = mTimerCurr;
-        --DT;
-    }
+    if (timerElapsed >= TIMERS_TIME_PER_CYCLE) {
+        mTimerPrev = timerCurr;
 
-    if (ST > 0) {
-        --ST;
-        mBeeper.play();
+        if (DT > 0) {
+            --DT;
+        }
+
+        if (ST > 0) {
+            --ST;
+            mBeeper.play();
+        }
     }
 }
 

@@ -44,8 +44,6 @@ private:
     bool mShouldWaitForKeyPress;
 
     std::chrono::steady_clock::time_point mTimerPrev;
-    std::chrono::steady_clock::time_point mTimerCurr;
-    long long mTimerDelta{};
 
     uint16_t getCurrentOpcode();
 
