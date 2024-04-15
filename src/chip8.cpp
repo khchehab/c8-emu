@@ -214,8 +214,8 @@ void Chip8::decrementTimers() {
         return;
     }
 
-    auto timerCurr = std::chrono::steady_clock::now();
-    auto timerElapsed = std::chrono::duration_cast<std::chrono::milliseconds>(timerCurr - mTimerPrev).count();
+    std::chrono::steady_clock::time_point timerCurr = std::chrono::steady_clock::now();
+    long long timerElapsed = std::chrono::duration_cast<std::chrono::milliseconds>(timerCurr - mTimerPrev).count();
 
     if (timerElapsed >= TIMERS_TIME_PER_CYCLE) {
         mTimerPrev = timerCurr;
