@@ -236,22 +236,29 @@ uint8_t Chip8::randomByte() {
 }
 
 void Chip8::drawSprite(uint8_t x, uint8_t y, uint8_t n) {
+    uint8_t xPos = V[x] % GRAPHICS_WIDTH;
+    uint8_t yPos = V[y] % GRAPHICS_HEIGHT;
+
     V[0xf] = 0x0;
 
-    uint8_t i, j, sprite;
-    uint8_t xPos, yPos;
-    uint8_t spritePixel;
+    uint8_t i, j, sprite, spritePixel, mask, bits;
     uint16_t index;
     bool screenPixel;
     for (i = 0; i < n; ++i) {
+        if (yPos + i > GRAPHICS_HEIGHT) {
+            continue;
+        }
+
         sprite = memory[I + i];
 
         for (j = 0; j < 8; ++j) {
-            xPos = (V[x] + j) % GRAPHICS_WIDTH;
-            yPos = (V[y] + i) % GRAPHICS_HEIGHT;
-            index = (yPos * GRAPHICS_WIDTH) + xPos;
+            if (xPos + j > GRAPHICS_WIDTH) {
+                continue;
+            }
 
-            spritePixel = (sprite & (0x80 >> j)) >> (8 - j - 1);
+            index = ((yPos + i) * GRAPHICS_WIDTH) + (xPos + j);
+
+            spritePixel = (sprite & (0x01 << (8 - j - 1))) >> (8 - j - 1);
             screenPixel = graphics[index];
 
             if (spritePixel == 0x1) {
@@ -263,6 +270,34 @@ void Chip8::drawSprite(uint8_t x, uint8_t y, uint8_t n) {
             }
         }
     }
+
+//    V[0xf] = 0x0;
+//
+//    uint8_t i, j, sprite;
+//    uint8_t xPos, yPos;
+//    uint8_t spritePixel;
+//    uint16_t index;
+//    bool screenPixel;
+//    for (i = 0; i < n; ++i) {
+//        sprite = memory[I + i];
+//
+//        for (j = 0; j < 8; ++j) {
+//            xPos = (V[x] + j) % GRAPHICS_WIDTH;
+//            yPos = (V[y] + i) % GRAPHICS_HEIGHT;
+//            index = (yPos * GRAPHICS_WIDTH) + xPos;
+//
+//            spritePixel = (sprite & (0x80 >> j)) >> (8 - j - 1);
+//            screenPixel = graphics[index];
+//
+//            if (spritePixel == 0x1) {
+//                if (screenPixel) {
+//                    V[0xf] = 0x1;
+//                }
+//
+//                graphics[index] = screenPixel ^ spritePixel;
+//            }
+//        }
+//    }
 }
 
 const bool *Chip8::getGraphics() const {
