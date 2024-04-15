@@ -85,24 +85,58 @@ bool Platform::processInput(uint8_t *keys, bool shouldWaitForKeyPress) {
         }
 
         switch (e.key.keysym.sym) {
-            case SDLK_ESCAPE: return false;
-            case SDLK_x: keys[0x0] = keyState; break;
-            case SDLK_1: keys[0x1] = keyState; break;
-            case SDLK_2: keys[0x2] = keyState; break;
-            case SDLK_3: keys[0x3] = keyState; break;
-            case SDLK_q: keys[0x4] = keyState; break;
-            case SDLK_w: keys[0x5] = keyState; break;
-            case SDLK_e: keys[0x6] = keyState; break;
-            case SDLK_a: keys[0x7] = keyState; break;
-            case SDLK_s: keys[0x8] = keyState; break;
-            case SDLK_d: keys[0x9] = keyState; break;
-            case SDLK_z: keys[0xa] = keyState; break;
-            case SDLK_c: keys[0xb] = keyState; break;
-            case SDLK_4: keys[0xc] = keyState; break;
-            case SDLK_r: keys[0xd] = keyState; break;
-            case SDLK_f: keys[0xe] = keyState; break;
-            case SDLK_v: keys[0xf] = keyState; break;
-            default: break;
+            case SDLK_ESCAPE:
+                return false;
+            case SDLK_x:
+                keys[0x0] = keyState;
+                break;
+            case SDLK_1:
+                keys[0x1] = keyState;
+                break;
+            case SDLK_2:
+                keys[0x2] = keyState;
+                break;
+            case SDLK_3:
+                keys[0x3] = keyState;
+                break;
+            case SDLK_q:
+                keys[0x4] = keyState;
+                break;
+            case SDLK_w:
+                keys[0x5] = keyState;
+                break;
+            case SDLK_e:
+                keys[0x6] = keyState;
+                break;
+            case SDLK_a:
+                keys[0x7] = keyState;
+                break;
+            case SDLK_s:
+                keys[0x8] = keyState;
+                break;
+            case SDLK_d:
+                keys[0x9] = keyState;
+                break;
+            case SDLK_z:
+                keys[0xa] = keyState;
+                break;
+            case SDLK_c:
+                keys[0xb] = keyState;
+                break;
+            case SDLK_4:
+                keys[0xc] = keyState;
+                break;
+            case SDLK_r:
+                keys[0xd] = keyState;
+                break;
+            case SDLK_f:
+                keys[0xe] = keyState;
+                break;
+            case SDLK_v:
+                keys[0xf] = keyState;
+                break;
+            default:
+                break;
         }
 
         if (keyPressed) {

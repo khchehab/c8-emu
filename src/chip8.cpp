@@ -2,16 +2,16 @@
 #include <fstream>
 #include <stdexcept>
 #include <random>
-#include <thread>
-#include <chrono>
 
-const int RATE_OF_DECREMENT = 1000 / 60;
+const long long TIMERS_TIME_PER_CYCLE = 1000 / 60;
 
-Chip8::Chip8(const Beeper &beeper) : mBeeper(beeper), I(0x0000), PC(0x0200), SP(0x00), DT(0x00), ST(0x00),
+Chip8::Chip8(const Beeper &beeper) : mBeeper(beeper), I(0x000), PC(0x0200), SP(0x00), DT(0x00), ST(0x00),
                                      mShouldWaitForKeyPress(false) {
     for (int i = 0; i < FONT_SET_SIZE; i++) {
         memory[i] = FONT_SET[i];
     }
+
+    mTimerPrev = std::chrono::steady_clock::now();
 }
 
 void Chip8::loadRom(const std::string &path) {
@@ -159,24 +159,26 @@ void Chip8::execute() {
             } else if (nn == 0x18) { // LD ST, Vx
                 ST = V[x];
             } else if (nn == 0x1e) { // ADD I, Vx
-                I += V[x];
+                I = (I + V[x]) & 0x0fff;
             } else if (nn == 0x29) { // LD F, Vx
-                I = 5 * V[x];
+                I = (5 * V[x]) & 0x0fff;
             } else if (nn == 0x33) { // LD B, Vx
                 uint8_t hundreds = V[x] / 100;
                 uint8_t tens = (V[x] / 10) % 10;
                 uint8_t ones = V[x] % 10;
 
-                memory[I & 0xffff] = hundreds;
-                memory[(I + 1) & 0xffff] = tens;
-                memory[(I + 2) & 0xffff] = ones;
+                memory[I & 0x0fff] = hundreds;
+                memory[(I + 1) & 0x0fff] = tens;
+                memory[(I + 2) & 0x0fff] = ones;
             } else if (nn == 0x55) { // LD [I], Vx
                 for (uint8_t i = 0; i <= x; i++) {
-                    memory[(I++) & 0xffff] = V[i];
+                    memory[I & 0x0fff] = V[i];
+                    I = (I + 1) & 0x0fff;
                 }
             } else if (nn == 0x65) { // LD Vx, [I]
                 for (uint8_t i = 0; i <= x; i++) {
-                    V[i] = memory[(I++) & 0xffff];
+                    V[i] = memory[I & 0x0fff];
+                    I = (I + 1) & 0x0fff;
                 }
             }
             break;
@@ -208,25 +210,26 @@ void Chip8::setWaitedKeyPress() {
 }
 
 void Chip8::decrementTimers() {
-    std::thread t([&]() {
-        while (true) {
-            if (DT > 0) {
-                --DT;
-            }
+    if (DT == 0 && ST == 0) {
+        return;
+    }
 
-            if (ST > 0) {
-                --ST;
-                mBeeper.play();
-            }
+    mTimerCurr = std::chrono::steady_clock::now();
+    mTimerDelta = std::chrono::duration_cast<std::chrono::milliseconds>(mTimerCurr - mTimerPrev).count();
 
-            std::this_thread::sleep_for(std::chrono::milliseconds(RATE_OF_DECREMENT));
+    if (mTimerDelta < TIMERS_TIME_PER_CYCLE) {
+        return;
+    }
+    
+    if (DT > 0) {
+        mTimerPrev = mTimerCurr;
+        --DT;
+    }
 
-            if (DT == 0 && ST == 0) {
-                break;
-            }
-        }
-    });
-    t.join();
+    if (ST > 0) {
+        --ST;
+        mBeeper.play();
+    }
 }
 
 uint8_t Chip8::randomByte() {
@@ -249,7 +252,7 @@ void Chip8::drawSprite(uint8_t x, uint8_t y, uint8_t n) {
             continue;
         }
 
-        sprite = memory[I + i];
+        sprite = memory[(I + i) & 0x0fff];
 
         for (j = 0; j < 8; ++j) {
             if (xPos + j > GRAPHICS_WIDTH) {

@@ -2,6 +2,7 @@
 #define C8_EMU_CHIP8_H
 
 #include <string>
+#include <chrono>
 #include "constants.h"
 #include "beeper.h"
 
@@ -41,6 +42,10 @@ private:
     uint8_t ST;
 
     bool mShouldWaitForKeyPress;
+
+    std::chrono::steady_clock::time_point mTimerPrev;
+    std::chrono::steady_clock::time_point mTimerCurr;
+    long long mTimerDelta{};
 
     uint16_t getCurrentOpcode();
 
