@@ -22,9 +22,11 @@ public:
 private:
     SDL_Window *mWindow;
     SDL_Renderer *mRenderer;
+    SDL_Texture *mTexture;
+    SDL_Surface *mSurface;
 
-    SDL_Color mSetColor{};
-    SDL_Color mUnsetColor{};
+    Uint32 mSetColor;
+    Uint32 mUnsetColor;
 
     int mScale;
 

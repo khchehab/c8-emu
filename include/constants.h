@@ -10,6 +10,7 @@ const int KEY_SIZE = 16;
 const int MEMORY_SIZE = 4096;
 const int GRAPHICS_WIDTH = 64;
 const int GRAPHICS_HEIGHT = 32;
+const bool DEBUG = false;
 
 const int FONT_SET_SIZE = 80;
 const uint8_t FONT_SET[FONT_SET_SIZE] = {

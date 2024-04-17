@@ -15,7 +15,7 @@ int main() {
         Beeper beeper(440, 100);
 
         Chip8 c8(beeper);
-        c8.loadRom("roms/chip8-test-suite/1-chip8-logo.ch8");
+        c8.loadRom("roms/roms/demos/Maze (alt) [David Winter, 199x].ch8");
 
         std::chrono::steady_clock::time_point clockPrev = std::chrono::steady_clock::now();
         std::chrono::steady_clock::time_point clockCurr;
